@@ -8,11 +8,11 @@ PATTERNS = [
     '\%end\_block\%'
 ]
 NAME_FILE_IN = 'Fanuc.ptrn'
-EXCEL_NAME = 'Kjellberg_cutting_data_table.xlsx'
+EXCEL_NAME = 'C:\Kjellberg_cutting_data_table\Kjellberg_cutting_data_table.xlsx'
 EXCEL_LETTER = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
                 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 WB_NAME = 'Лист1'
-NAME_FILE_OUT = 'result.ls'
+NAME_FILE_OUT = 'C:\Kjellberg_cutting_data_table\SET_CUT_PARAMETERS.ls'
 TITLE_FANUC = ['/PROG ',                        #1
                '\n/ATTR\nOWNER = ',
                ';\nCOMMENT = "',
@@ -36,16 +36,16 @@ TITLE_FANUC = ['/PROG ',                        #1
                'MPAS_CURRENT_PASS : 0;\nMPAS_STATUS_PASS : 0;\n/MN']
 END_FANUC = '/POS\n/END\n'
 TITLE_FANUC_CONST = [
-    'SET_CUT_PARAMETRS',        # 1
+    'SET_CUT_PARAMETERS',        # 1
     'MNEDITOR',
     '',
-    '',
+    '1',
     '',                         #5
+    '',
     '',
     '0',
     '',
-    '',
-    '',                         #10
+    '1',                         #10
     'READ_WRITE',
     '0',
     '50',

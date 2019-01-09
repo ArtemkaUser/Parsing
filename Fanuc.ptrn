@@ -1,38 +1,37 @@
 %ptrn(1)% %title_fanuc%
 
-%ptrn(1)% %sn()%:  LBL[900] ;
-%ptrn(1)% %sn()%:  R[16:Parametr job]=AR[1]    ;
-%ptrn(1)% %sn()%:  R[17:Pirsing start]=AR[2]    ;
-%ptrn(140)% %sn()%: IF R[16:Parametr job]=%cell(1, 4)%,JMP LBL[%cell(1, 4)%] ;
+%ptrn(1)% %sn()%: !Kjellberg_cutting_data_table ;
+%ptrn(1)% %sn()%: R[10:job parameter]=AR[1] ;
+%ptrn(1)% %sn()%: SELECT R[10:job parameter]=%cell(1, 4)%,JMP LBL[%cell(1, 4)%] ;
+%ptrn(139)% %sn()%: =%cell(1,5)%,JMP LBL[%cell(1,5)%] ;
+%ptrn(1)% %sn()%: ELSE,JMP LBL[1000] ;
 %block(140)%
-%sn()%:   ;
-%sn()%:  LBL[%cell(1, 4)%] ;
-%sn()%:   ;
-%sn()%:  R[5:height ignition]=%cell(11, 4)%    ;
-%sn()%:  R[6:height pirsing]=%cell(12, 4)%    ;
-%sn()%:  R[7:height cutting]=%cell(14, 4)%    ;
-%sn()%:  R[8:wait pirsing]=%cell(13, 4)%    ;
-%sn()%:  R[9:cut speed]=%cell(16, 4)%    ;
-%sn()%:  R[10:tast voltage]=%cell(15, 4)%    ;
-%sn()%:  R[11:job number]=%cell(1, 4)%    ;
-%sn()%:   ;
-%sn()%:  JMP LBL[901] ;
-%sn()%:   ;
+%sn()%:  ;
+%sn()%: LBL[%cell(1, 4)%] ;
+%sn()%: R[11:job number]=%cell(1, 4)% ;
+%sn()%: R[12:ignition height]=%cell(11, 4)% ;
+%sn()%: R[13:pirsing height]=%cell(12, 4)% ;
+%sn()%: R[14:pirsing delay]=%cell(13, 4)% ;
+%sn()%: R[15:cutting height]=%cell(14, 4)% ;
+%sn()%: R[16:cutting voltage]=%cell(15, 4)% ;
+%sn()%: R[17:cutting speed]=%cell(16, 4)% ;
+%sn()%: JMP LBL[990] ;
 %end_block%
-%ptrn(1)% %sn()%:  LBL[902] ;
-%ptrn(1)% %sn()%:  UALM[13] ;
-%ptrn(1)% %sn()%:  LBL[903] ;
-%ptrn(1)% %sn()%:  UALM[14] ;
-%ptrn(1)% %sn()%:  LBL[901] ;
-%ptrn(1)% %sn()%:  IF R[16:Parametr job]<>R[11:job number],JMP LBL[903] ;
-%ptrn(1)% %sn()%:  IF R[9:cut speed]>610,JMP LBL[903] ;
-%ptrn(1)% %sn()%:  IF R[17:Pirsing start]=0,JMP LBL[904] ;
-%ptrn(1)% %sn()%:  JMP LBL[999] ;
-%ptrn(1)% %sn()%:  LBL[904] ;
-%ptrn(1)% %sn()%:  R[5:height ignition]=R[7:height cutting]    ;
-%ptrn(1)% %sn()%:  R[6:height pirsing]=R[7:height cutting]    ;
-%ptrn(1)% %sn()%:  JMP LBL[999] ;
-%ptrn(1)% %sn()%:  LBL[999] ;
-%ptrn(1)% %sn()%:  CALL ZERRO_POZREG(24) ;
-%ptrn(1)% %sn()%:  PR[GP1:24,3:Offset_Z]=PR[GP1:24,3:Offset_Z]+R[7:height cutting]    ;
+%ptrn(1)% %sn()%:  ;
+%ptrn(1)% %sn()%: !Piersing ;
+%ptrn(1)% %sn()%: !(if AR[2] = 0 then no piersing) ;
+%ptrn(1)% %sn()%: LBL[990] ;
+%ptrn(1)% %sn()%: R[18:piersing start]=AR[2] ;
+%ptrn(1)% %sn()%: IF (R[18:piersing start]=0) THEN ;
+%ptrn(1)% %sn()%: R[12:ignition height]=R[15:cutting height] ;
+%ptrn(1)% %sn()%: R[13:piersing height]=R[15:cutting height] ;
+%ptrn(1)% %sn()%: ENDIF ;
+%ptrn(1)% %sn()%: JMP LBL[1100] ;
+%ptrn(1)% %sn()%: ;
+%ptrn(1)% %sn()%: !Incorrect parameter handler
+%ptrn(1)% %sn()%: LBL[1000] ;
+%ptrn(1)% %sn()%: UALM[10] ;
+%ptrn(1)% %sn()%: ;
+%ptrn(1)% %sn()%: !End of program ;
+%ptrn(1)% %sn()%: LBL[1100] ;
 %ptrn(1)% %end_fanuc%

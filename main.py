@@ -177,9 +177,9 @@ class Parser:
                             "LINE_COUNT = " + str(self.line_number-1))
         # вставляем текущую дату и время в текст
         text = text.replace("CREATE = ",
-                            "CREATE = " + datetime.strftime(datetime.now(), "DATA %y-%m-%d TIME %H:%M:%S"))
+                            "CREATE = " + datetime.strftime(datetime.now(), "DATE %y-%m-%d  TIME %H:%M:%S"))
         text = text.replace("MODIFIED = ",
-                            "MODIFIED = " + datetime.strftime(datetime.now(), "DATA %y-%m-%d TIME %H:%M:%S"))
+                            "MODIFIED = " + datetime.strftime(datetime.now(), "DATE %y-%m-%d  TIME %H:%M:%S"))
         # перезаписываем открытый в этом методе файл для получения результата
         with open(NAME_FILE_OUT, "w") as file_out:
             file_out.write(text)
@@ -213,10 +213,7 @@ class Parser:
         return re.findall('\d+', expression)
 
     def title_fanuc(self, title, title_const):
-        result_line = ''
-        for i in range(len(title)):
-            result_line += title[i] + title_const[i]
-        return str(result_line)
+        return ''.join(map(''.join, zip(title, title_const)))
 
     def excel(self, column, row):
         '''
@@ -225,7 +222,11 @@ class Parser:
         :param row: номер строки из таблицы excel
         :return: значение из ячейки
         '''
-        return self.sheet[EXCEL_LETTER[column-1]+str(row)].value
+        value = self.sheet[EXCEL_LETTER[column-1]+str(row)].value
+        if float(value) % 1 == 0:
+            return value
+        else:
+            return str(round(float(value), 3))
 
     def check_none(self, pattern, line):
         '''
